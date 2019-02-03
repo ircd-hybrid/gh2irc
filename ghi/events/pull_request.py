@@ -22,8 +22,8 @@ def PullRequest(payload, shorten):
             action = "merged"
 
         message = (
-            "[{light_purple}{repo}{reset}] {gray}{user}{reset} {bold}{action}{reset} pull request {bold}#{number}{reset}:"
-            " {title} ({dark_purple}{baseBranch}{reset}...{dark_purple}{headBranch}{reset}) {blue}{underline}{url}{reset}\r\n"
+            "[{light_purple}{repo}{reset}] {light_gray}{user}{reset} {bold}{action}{reset} pull request {bold}#{number}{reset}:"
+            " {title} ({dark_purple}{baseBranch}{reset}...{dark_purple}{headBranch}{reset}) {light_gray}{underline}{url}{reset}\r\n"
         ).format(
             repo         = payload["pull_request"]["base"]["repo"]["name"],
             user         = payload["sender"]["login"],
@@ -33,8 +33,7 @@ def PullRequest(payload, shorten):
             baseBranch   = payload["pull_request"]["base"]["ref"],
             headBranch   = payload["pull_request"]["head"]["ref"],
             url          = url,
-            blue         = colors.dark_blue,
-            gray         = colors.light_gray,
+            light_gray   = colors.light_gray,
             light_purple = colors.light_purple,
             dark_purple  = colors.dark_purple,
             green        = colors.light_green,

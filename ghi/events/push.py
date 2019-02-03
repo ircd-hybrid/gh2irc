@@ -29,15 +29,15 @@ def Push(payload, poolRepos, shorten):
         # Tag was pushed
         message = (
             "[{light_purple}{repo}{reset}] {gray}{user}{reset} {action} tag "
-            "{dark_purple}{tag}{reset}: {blue}{underline}{compareUrl}{reset}\r\n"
+            "{dark_purple}{tag}{reset}: {light_gray}{underline}{compareUrl}{reset}\r\n"
         ).format(
             repo         = payload["repository"]["name"],
             user         = payload["pusher"]["name"],
             action       = action,
             tag          = ref.split("/", maxsplit=2)[2],
             compareUrl   = url,
-            blue         = colors.dark_blue,
-            gray         = colors.dark_gray,
+            light_gray   = colors.light_gray,
+            dark_gray    = colors.dark_gray,
             light_purple = colors.light_purple,
             dark_purple  = colors.dark_purple,
             underline    = colors.underline,
@@ -84,7 +84,7 @@ def Push(payload, poolRepos, shorten):
             plural = ""
         messages.append(
             "[{light_purple}{repo}{reset}] {gray}{user}{reset} {action} {bold}{length}{reset} "
-            "commit{plural} to {dark_purple}{branch}{reset}: {blue}{underline}{compareUrl}{reset}\r\n".format(
+            "commit{plural} to {dark_purple}{branch}{reset}: {light_gray}{underline}{compareUrl}{reset}\r\n".format(
                 repo         = repo,
                 user         = user,
                 action       = action,
@@ -92,8 +92,8 @@ def Push(payload, poolRepos, shorten):
                 branch       = branch,
                 compareUrl   = url,
                 plural       = plural,
-                blue         = colors.dark_blue,
-                gray         = colors.light_gray,
+                light_gray   = colors.light_gray,
+                dark_gray    = colors.dark_gray,
                 light_purple = colors.light_purple,
                 dark_purple  = colors.dark_purple,
                 underline    = colors.underline,
