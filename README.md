@@ -1,11 +1,11 @@
-![ghi](images/ghi.png)
+gh2irc: **G**it**H**ub **2** **I**RC notification service - a [ghi](https://github.com/gkrizek/ghi/) fork with minor modifications to suit the ircd-hybrid development network's needs
 
-**G**it**H**ub **I**RC Notification Service
+
 
 Ghi (pronounced 'ghee') is a relay between GitHub and IRC. It was created to take the place of the [now depreciated](https://developer.github.com/changes/2018-04-25-github-services-deprecation/) [GitHub IRC Service](https://github.com/github/github-services/blob/master/lib/services/irc.rb). Ghi receives events from GitHub for a specified repository via a webhook. Then it parses the event and sends the relevant information to your configured IRC channels. Ghi was written to be very configuration driven. Therefore, Ghi is set up with a `.ghi.yml` file and can listen for multiple repositories and send to multiple channels. Most of the features in the original GitHub Service are supported in Ghi as well.
 
 
-# Getting Started
+## Getting Started
 
 Ghi was designed and written to be ran in [AWS Lambda](https://aws.amazon.com/lambda/) with [API Gateway](https://aws.amazon.com/api-gateway/). However, I've also created a very simple HTTP server implementation so Ghi can be ran on any server if desired. Ghi is configured entirely with the `.ghi.yml` file. In this file you will set all necessary information including repositories, IRC nick, IRC host, channels, etc.
 
