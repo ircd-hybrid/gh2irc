@@ -99,22 +99,31 @@ class IRC(object):
         self.irc.send(bytes(text.replace('PING', 'PONG'), "UTF-8"))
 
 
-    def connect(self, host, port, channels, nick, password):
+    def sendIson(self, nick):
+        self.irc.send(bytes("ISON {}\r\n".format(nick), "UTF-8"))
+
+
+    def connect(self, host, port, channels, nick, password, join):
         logging.info("Connecting to {}:{} with nick {} and channels: {}".format(host, port, nick, ','.join(channels)))
         self.irc.connect((host, port))  
         if password != None:
             self.authenticate(nick, password)                                                  
         self.irc.send(bytes("USER {nick} {nick} {nick} {nick}\r\n".format(nick=nick), "UTF-8"))
         self.irc.send(bytes("NICK {}\r\n".format(nick), "UTF-8"))
-        for channel in channels:          
-            self.irc.send(bytes("JOIN {}\r\n".format(channel), "UTF-8"))
+
+        if join is True:
+            for channel in channels:
+                self.irc.send(bytes("JOIN {}\r\n".format(channel), "UTF-8"))
  
 
-    def disconnect(self, channels):
+    def disconnect(self, channels, join):
         # Don't disconnect too soon to ensure messages are sent
         sleep(1)
-        for channel in channels:               
-            self.irc.send(bytes("PART {}\r\n".format(channel), "UTF-8"))
+
+        if join is True:
+            for channel in channels:               
+                self.irc.send(bytes("PART {}\r\n".format(channel), "UTF-8"))
+
         self.irc.send(bytes("QUIT\r\n", "UTF-8"))
         # Get rest of logs for debug
         tries = 0
@@ -137,7 +146,7 @@ class IRC(object):
 def sendMessages(pool, messages):
     try:
         irc = IRC(pool.ssl)
-        irc.connect(pool.host, pool.port, pool.channels, pool.nick, pool.password)
+        irc.connect(pool.host, pool.port, pool.channels, pool.nick, pool.password, pool.join)
         
         # Wait until connection is established
         connectionTries = 0
@@ -165,13 +174,15 @@ def sendMessages(pool, messages):
             for message in messages:
                 irc.sendMessage(channel, message)
 
+        irc.sendIson(pool.nick)
+
         # Wait until messages were successfully sent
         sendTries = 0
         while True:
             text = irc.getText()
             for line in text.split('\r'):
                 logging.debug(line.rstrip())
-            if re.search(r'(.*)End of /NAMES list(.*)', text, re.MULTILINE):
+            if re.search(r'(.*)303 '+pool.nick+' :'+pool.nick+'(.*)', text, re.MULTILINE):
                 break
             elif sendTries > 120:
                 # If tried 120 times and no match, raise error
@@ -179,7 +190,7 @@ def sendMessages(pool, messages):
             sleep(0.25)
             sendTries += 1
 
-        irc.disconnect(pool.channels)
+        irc.disconnect(pool.channels, pool.join)
 
         resultMessage = "Successfully sent {} messages.".format(len(messages))
         logging.info(resultMessage)

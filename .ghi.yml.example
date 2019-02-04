@@ -11,3 +11,4 @@ pools:
       password: myBotPassword123!
       channels:
         - channel1
+      join: true

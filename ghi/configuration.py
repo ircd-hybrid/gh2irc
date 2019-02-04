@@ -7,7 +7,7 @@ import yaml
 class Pool(object):
 
 
-    def __init__(self, name, repos, shorten, host, port, ssl, nick, password, channels):
+    def __init__(self, name, repos, shorten, host, port, ssl, nick, password, channels, join):
         self.name = name
         self.repos = repos
         self.shorten = shorten
@@ -17,6 +17,7 @@ class Pool(object):
         self.nick = nick
         self.password = password
         self.channels = channels
+        self.join = join
 
 
     def containsRepo(self, repo):
@@ -34,12 +35,13 @@ def readFile(path):
 class GlobalConfig(object):
 
 
-    def __init__(self, host, port, ssl, nick, password, shorten, verify):
+    def __init__(self, host, port, ssl, nick, password, join, shorten, verify):
         self.host = host
         self.port = port
         self.ssl = ssl
         self.nick = nick
         self.password = password
+        self.join = join
         self.shorten = shorten
         self.verify = verify
 
@@ -168,12 +170,21 @@ def getConfiguration():
                     raise TypeError("'password' is not a string")
             else:
                 globalPassword = None
+
+            if "join" in globalConfig["irc"]:
+                globalJoin = globalConfig["irc"]["join"]
+                if type(globalJoin) is not bool:
+                    raise TypeError("'join' is not a boolean")
+            else:
+                globalJoin = None
+
         else:
             globalHost = None
             globalPort = None
             globalSsl = None
             globalNick = None
             globalPassword = None
+            globalJoin = None
 
         if "github" in globalConfig:
             if "shorten_url" in globalConfig["github"]:
@@ -199,6 +210,7 @@ def getConfiguration():
             ssl      = globalSsl,
             nick     = globalNick,
             password = globalPassword,
+            join     = globalJoin,
             shorten  = globalShorten,
             verify   = globalVerify
         )
@@ -367,6 +379,16 @@ def getConfiguration():
                 else:
                     generatedChannels.append("#"+channel)
 
+
+            if "join" in pool["irc"]:
+                join = pool["irc"]["join"]
+            elif globalSettings.join:
+                join = globalSettings.join
+            else:
+                join = True
+            if type(join) is not bool:
+                raise TypeError("'join' is not a boolean")
+
         except (KeyError, TypeError) as e:
             errorMessage = "Missing or invalid parameter in configuration file: %s" % e
             logging.error(errorMessage)
@@ -387,7 +409,8 @@ def getConfiguration():
                 ssl=ssl,
                 nick=nick,
                 password=password,
-                channels=generatedChannels
+                channels=generatedChannels,
+                join=join,
             )
         )
 
