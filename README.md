@@ -139,6 +139,7 @@ Ghi is configurable and supports lots of combinations of repositories, channels,
 | irc:ssl            | True                                      | No       | Connect to IRC Server with SSL                       |
 | irc:nick           | None                                      | No       | IRC Nickname                                         |
 | irc:password       | None                                      | No       | IRC Password                                         |
+| irc:join           | True                                      | No       | Whether to join channels before sending messages     |
 
 **Pool Configuration Object**
 
@@ -153,6 +154,7 @@ Ghi is configurable and supports lots of combinations of repositories, channels,
 | irc:nick           | None                                      | Yes      | IRC Nickname                                         |
 | irc:password       | None                                      | No       | IRC Password                                         |
 | irc:channels       | None                                      | Yes      | List of channels to send messages to                 |
+| irc:join           | True                                      | No       | Whether to join channels before sending messages     |
 
 **Repository Configuration Object**
 
@@ -179,6 +181,7 @@ global: # optional
       ssl: true # optional, default is true
       nick: my-irc-bot # optional, but must be set in pool if not here
       password: abc123 # optional, but must be set in pool if not here and needed
+      join: false # optional, default is true
 
 pools: # required
   - name: my-pool # required
@@ -194,11 +197,12 @@ pools: # required
     irc: # required
       host: chat.freenode.net # required
       port: 6697 # optional, default is 6697 for ssl and 6667 for non-ssl
-      ssl: true # optional default is true
+      ssl: true # optional, default is true
       nick: my-irc-bot # required
       password: abc123 # optional, but if it's required by the nick it must be set here or with environment variable
       channels: # required
         - my-cool-channel # at least 1 channel is required
+      join: false # optional, default is true
 ```
 
 If you define a parameter in the Global section and in your pool, the value in the pool will be used.
