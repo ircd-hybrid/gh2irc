@@ -97,6 +97,18 @@ def parsePayload(event, payload, repos, shorten):
         }
 
 
+    elif event == "watch":
+        # Create messages based on the payload
+        watch = Watch(payload, shorten)
+        if watch["statusCode"] != 200:
+            return watch
+
+        return {
+            "statusCode": 200,
+            "messages": watch["messages"]
+        }
+
+
     elif event == "ping":
         logging.info("Sent 'pong'")
         return {
