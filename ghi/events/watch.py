@@ -12,19 +12,14 @@ def Watch(payload, shorten):
     action = payload["action"]
     logging.info("Received action '%s'" % action)
     colors = Colors()
-    if shorten:
-        url = github.shortenUrl(payload["sender"]["html_url"])
-    else:
-        url = payload["sender"]["html_url"]
 
     if action == "started":
         message = (
-            "[{light_purple}{repo}{reset}] {dark_gray}{user}{reset} [{light_gray}{underline}{url}{reset}] started starring. Repository's new stargazers count: {stargazers}\r\n"
+            "[{light_purple}{repo}{reset}] {dark_gray}{user}{reset} started starring. New stargazers count: {stargazers}\r\n"
         ).format(
             repo         = payload["repository"]["name"],
             user         = payload["sender"]["login"],
             stargazers   = payload["repository"]["stargazers_count"],
-            url          = url,
             light_gray   = colors.light_gray,
             dark_gray    = colors.dark_gray,
             light_purple = colors.light_purple,
