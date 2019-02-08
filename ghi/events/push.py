@@ -28,7 +28,7 @@ def Push(payload, poolRepos, shorten):
     if ref.startswith("refs/tags"):
         # Tag was pushed
         message = (
-            "[{light_purple}{repo}{reset}] {gray}{user}{reset} {action} tag "
+            "[{light_purple}{repo}{reset}] {dark_gray}{user}{reset} {action} tag "
             "{dark_purple}{tag}{reset}: {light_gray}{underline}{compareUrl}{reset}\r\n"
         ).format(
             repo         = payload["repository"]["name"],
@@ -83,7 +83,7 @@ def Push(payload, poolRepos, shorten):
         else:
             plural = ""
         messages.append(
-            "[{light_purple}{repo}{reset}] {gray}{user}{reset} {action} {bold}{length}{reset} "
+            "[{light_purple}{repo}{reset}] {dark_gray}{user}{reset} {action} {bold}{length}{reset} "
             "commit{plural} to {dark_purple}{branch}{reset}: {light_gray}{underline}{compareUrl}{reset}\r\n".format(
                 repo         = repo,
                 user         = user,
