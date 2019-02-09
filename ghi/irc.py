@@ -108,7 +108,7 @@ class IRC(object):
         self.irc.connect((host, port))  
         if password != None:
             self.authenticate(nick, password)                                                  
-        self.irc.send(bytes("USER {nick} {nick} {nick} {nick}\r\n".format(nick=nick), "UTF-8"))
+        self.irc.send(bytes("USER {nick} {nick} {nick} :gh2irc: GitHub to IRC notification service\r\n".format(nick=nick), "UTF-8"))
         self.irc.send(bytes("NICK {}\r\n".format(nick), "UTF-8"))
 
         if join is True:
