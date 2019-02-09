@@ -40,7 +40,7 @@ class IRC(object):
         if sslConfig is True:
             self.irc = ssl.wrap_socket(
                 socket.socket(socket.AF_INET, socket.SOCK_STREAM),
-                ssl_version=ssl.PROTOCOL_TLSv1_2
+                ssl_version=ssl.PROTOCOL_TLS
             )
         else:
             self.irc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
