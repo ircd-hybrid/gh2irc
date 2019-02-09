@@ -1,6 +1,6 @@
-gh2irc: **G**it**H**ub **2** **I**RC notification service - a [ghi](https://github.com/gkrizek/ghi/) fork with minor modifications to suit the ircd-hybrid development network's needs
+gh2irc: PYTHONPATH - a [ghi](https://github.com/gkrizek/ghi/) fork with minor modifications to suit the ircd-hybrid development network's needs
 
-
+---
 
 Ghi (pronounced 'ghee') is a relay between GitHub and IRC. It was created to take the place of the [now depreciated](https://developer.github.com/changes/2018-04-25-github-services-deprecation/) [GitHub IRC Service](https://github.com/github/github-services/blob/master/lib/services/irc.rb). Ghi receives events from GitHub for a specified repository via a webhook. Then it parses the event and sends the relevant information to your configured IRC channels. Ghi was written to be very configuration driven. Therefore, Ghi is set up with a `.ghi.yml` file and can listen for multiple repositories and send to multiple channels. Most of the features in the original GitHub Service are supported in Ghi as well.
 
@@ -228,5 +228,7 @@ Some parameters are able to be exported as environment variables instead of bein
 
 ### Supported Event Types
 
+- [`issues`](https://developer.github.com/v3/activity/events/types/#issuesevent)
 - [`push`](https://developer.github.com/v3/activity/events/types/#pushevent)
 - [`pull_request`](https://developer.github.com/v3/activity/events/types/#pullrequestevent)
+- [`watch`](https://developer.github.com/v3/activity/events/types/#watchevent)
