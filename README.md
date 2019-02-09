@@ -1,4 +1,4 @@
-gh2irc: PYTHONPATH - a [ghi](https://github.com/gkrizek/ghi/) fork with minor modifications to suit the ircd-hybrid development network's needs
+gh2irc: GitHub to IRC notification service - a [ghi](https://github.com/gkrizek/ghi/) fork with minor modifications to suit the ircd-hybrid development network's needs
 
 ---
 
