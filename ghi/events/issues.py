@@ -22,12 +22,8 @@ def Issues(payload, shorten):
             action       = action,
             issue_number = payload["issue"]["number"],
             issue_title  = payload["issue"]["title"],
-            light_gray   = colors.light_gray,
             dark_gray    = colors.dark_gray,
             light_purple = colors.light_purple,
-            dark_purple  = colors.dark_purple,
-            underline    = colors.underline,
-            bold         = colors.bold,
             reset        = colors.reset
         )
 
