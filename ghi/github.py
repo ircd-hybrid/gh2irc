@@ -1,6 +1,7 @@
 import json
 import logging
 import requests
+from events.public import Public
 from events.pull_request import PullRequest
 from events.push import Push
 from events.watch import Watch
@@ -75,7 +76,19 @@ def parsePayload(event, payload, repos, shorten):
     # for every supported event: find the pool, parse the payload, and return IRC messages
     payload = json.loads(payload)
     logging.info("Received the '%s' event" % event)
-    if event == "push":
+    if event == "public":
+        # Create messages based on the payload
+        public = Public(payload, repos, shorten)
+        if public["statusCode"] != 200:
+            return public
+
+        return {
+            "statusCode": 200,
+            "messages": public["messages"]
+        }
+
+
+    elif event == "push":
         # Create messages based on the payload
         push = Push(payload, repos, shorten)
         if push["statusCode"] != 200:

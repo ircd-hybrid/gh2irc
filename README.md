@@ -229,6 +229,7 @@ Some parameters are able to be exported as environment variables instead of bein
 ### Supported Event Types
 
 - [`issues`](https://developer.github.com/v3/activity/events/types/#issuesevent)
+- [`public`](https://developer.github.com/v3/activity/events/types/#publicevent)
 - [`push`](https://developer.github.com/v3/activity/events/types/#pushevent)
 - [`pull_request`](https://developer.github.com/v3/activity/events/types/#pullrequestevent)
 - [`watch`](https://developer.github.com/v3/activity/events/types/#watchevent)
