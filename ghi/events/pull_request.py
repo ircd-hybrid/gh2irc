@@ -17,7 +17,7 @@ def PullRequest(payload, shorten):
     else:
         url = payload["pull_request"]["html_url"]
 
-    if action in ["opened", "closed", "reopened"]:
+    if action in ["opened", "closed", "reopened", "labeled", "unlabeled"]:
         if action == "closed" and payload["pull_request"]["merged"]:
             action = "merged"
 
