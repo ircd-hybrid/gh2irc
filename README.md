@@ -228,8 +228,8 @@ Some parameters are able to be exported as environment variables instead of bein
 
 ### Supported Event Types
 
-- [`issues`](https://developer.github.com/v3/activity/events/types/#issuesevent)
-- [`public`](https://developer.github.com/v3/activity/events/types/#publicevent)
-- [`push`](https://developer.github.com/v3/activity/events/types/#pushevent)
-- [`pull_request`](https://developer.github.com/v3/activity/events/types/#pullrequestevent)
-- [`watch`](https://developer.github.com/v3/activity/events/types/#watchevent)
+- [`issues`](https://docs.github.com/en/free-pro-team@latest/developers/webhooks-and-events/webhook-events-and-payloads#issues)
+- [`public`](https://docs.github.com/en/free-pro-team@latest/developers/webhooks-and-events/webhook-events-and-payloads#public)
+- [`push`](https://docs.github.com/en/free-pro-team@latest/developers/webhooks-and-events/webhook-events-and-payloads#push)
+- [`pull_request`](https://docs.github.com/en/free-pro-team@latest/developers/webhooks-and-events/webhook-events-and-payloads#pull_request)
+- [`watch`](https://docs.github.com/en/free-pro-team@latest/developers/webhooks-and-events/webhook-events-and-payloads#watch)
