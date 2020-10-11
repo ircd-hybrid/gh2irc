@@ -78,7 +78,7 @@ def Push(payload, poolRepos, shorten):
             
 
         # Summary Message
-        if len(commits) > 1:
+        if len(commits) != 1:
             plural = "s"
         else:
             plural = ""
