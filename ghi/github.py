@@ -6,6 +6,7 @@ from events.pull_request import PullRequest
 from events.push import Push
 from events.watch import Watch
 from events.issues import Issues
+from events.issue_comment import IssueComment
 
 
 def getPool(payload, pools):
@@ -133,6 +134,18 @@ def parsePayload(event, payload, repos, shorten):
         return {
             "statusCode": 200,
             "messages": issues["messages"]
+        }
+
+
+    elif event == "issue_comment":
+        # Create messages based on the payload
+        issue_comment = IssueComment(payload, shorten)
+        if issue_comment["statusCode"] != 200:
+            return issue_comment
+
+        return {
+            "statusCode": 200,
+            "messages": issue_comment["messages"]
         }
 
 
