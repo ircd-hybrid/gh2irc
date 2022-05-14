@@ -7,7 +7,7 @@ import github
 from irc import Colors
 
 
-def Public(payload, shorten):
+def Public(payload):
 
     colors = Colors()
 

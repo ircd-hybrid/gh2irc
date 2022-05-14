@@ -58,28 +58,14 @@ def getPool(payload, pools):
         }
 
 
-def shortenUrl(longUrl):
-    gitIo = "https://git.io/create?url={}".format(longUrl)
-    try:
-        code = requests.post(gitIo)
-        logging.debug(code.text)
-        if code.status_code == 200:
-            result = "https://git.io/{}".format(code.text)
-        else:
-            result = longUrl
-    except Exception:
-        result = longUrl
-    return result
-
-
-def parsePayload(event, payload, repos, shorten):
+def parsePayload(event, payload, repos):
 
     # for every supported event: find the pool, parse the payload, and return IRC messages
     payload = json.loads(payload)
     logging.info("Received the '%s' event" % event)
     if event == "public":
         # Create messages based on the payload
-        public = Public(payload, repos, shorten)
+        public = Public(payload, repos)
         if public["statusCode"] != 200:
             return public
 
@@ -91,7 +77,7 @@ def parsePayload(event, payload, repos, shorten):
 
     elif event == "push":
         # Create messages based on the payload
-        push = Push(payload, repos, shorten)
+        push = Push(payload, repos)
         if push["statusCode"] != 200:
             return push
 
@@ -103,7 +89,7 @@ def parsePayload(event, payload, repos, shorten):
 
     elif event == "pull_request":
         # Create messages based on the payload
-        pullRequest = PullRequest(payload, shorten)
+        pullRequest = PullRequest(payload)
         if pullRequest["statusCode"] != 200:
             return pullRequest
 
@@ -115,7 +101,7 @@ def parsePayload(event, payload, repos, shorten):
 
     elif event == "watch":
         # Create messages based on the payload
-        watch = Watch(payload, shorten)
+        watch = Watch(payload)
         if watch["statusCode"] != 200:
             return watch
 
@@ -127,7 +113,7 @@ def parsePayload(event, payload, repos, shorten):
 
     elif event == "issues":
         # Create messages based on the payload
-        issues = Issues(payload, shorten)
+        issues = Issues(payload)
         if issues["statusCode"] != 200:
             return issues
 
@@ -139,7 +125,7 @@ def parsePayload(event, payload, repos, shorten):
 
     elif event == "issue_comment":
         # Create messages based on the payload
-        issue_comment = IssueComment(payload, shorten)
+        issue_comment = IssueComment(payload)
         if issue_comment["statusCode"] != 200:
             return issue_comment
 

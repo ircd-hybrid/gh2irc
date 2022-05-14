@@ -7,7 +7,7 @@ import github
 from irc import Colors
 
 
-def Issues(payload, shorten):
+def Issues(payload):
 
     action = payload["action"]
     logging.info("Received action '%s'" % action)

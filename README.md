@@ -132,7 +132,6 @@ Ghi is configurable and supports lots of combinations of repositories, channels,
 
 | Name               | Default                                   | Required | Description                                          |
 |:------------------ |:-----------------------------------------:|:--------:| ----------------------------------------------------:|
-| github:shorten_url | False                                     | No       | Shorten all GitHub links with git.io                 |
 | github:verify      | True                                      | No       | Verify the payload with the `X-Hub-Signature` header |
 | irc:host           | None                                      | No       | Hostname for IRC Server                              |
 | irc:port           | 6697 if SSL enabled, 6667 if SSL disabled | No       | Port for IRC Server                                  |
@@ -147,7 +146,6 @@ Ghi is configurable and supports lots of combinations of repositories, channels,
 |:------------------ |:-----------------------------------------:|:--------:| ----------------------------------------------------:|
 | name               | None                                      | Yes      | Name of the Pool                                     |
 | github:repos       | None                                      | Yes      | List of Repository Configuration Objects             |
-| github:shorten_url | False                                     | No       | Shorten all GitHub links with git.io                 |
 | irc:host           | None                                      | Yes      | Hostname for IRC Server                              |
 | irc:port           | 6697 if SSL enabled, 6667 if SSL disabled | No       | Port for IRC Server                                  |
 | irc:ssl            | True                                      | No       | Connect to IRC Server with SSL                       |
@@ -173,7 +171,6 @@ version: 1 # required
 debug: true # optional, default False
 global: # optional
     github: # optional
-      shorten_url: true # optional, defaults to false
       verify: true # optional, defaults to true
     irc: # optional
       host: chat.freenode.net # optional
@@ -193,7 +190,6 @@ pools: # required
             - master
             - staging
           verify: true # optional, default is true
-      shorten_url: true # optional, defaults to false
     irc: # required
       host: chat.freenode.net # required
       port: 6697 # optional, default is 6697 for ssl and 6667 for non-ssl

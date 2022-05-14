@@ -7,10 +7,9 @@ import yaml
 class Pool(object):
 
 
-    def __init__(self, name, repos, shorten, host, port, ssl, nick, password, channels, join):
+    def __init__(self, name, repos, host, port, ssl, nick, password, channels, join):
         self.name = name
         self.repos = repos
-        self.shorten = shorten
         self.host = host
         self.port = port
         self.ssl = ssl
@@ -35,14 +34,13 @@ def readFile(path):
 class GlobalConfig(object):
 
 
-    def __init__(self, host, port, ssl, nick, password, join, shorten, verify):
+    def __init__(self, host, port, ssl, nick, password, join, verify):
         self.host = host
         self.port = port
         self.ssl = ssl
         self.nick = nick
         self.password = password
         self.join = join
-        self.shorten = shorten
         self.verify = verify
 
 
@@ -187,13 +185,6 @@ def getConfiguration():
             globalJoin = None
 
         if "github" in globalConfig:
-            if "shorten_url" in globalConfig["github"]:
-                globalShorten = globalConfig["github"]["shorten_url"]
-                if type(globalShorten) is not bool:
-                    raise TypeError("'shorten_url' is not a boolean")
-            else:
-                globalShorten = None
-            
             if "verify" in globalConfig["github"]:
                 globalVerify = globalConfig["github"]["verify"]
                 if type(globalVerify) is not bool:
@@ -201,7 +192,6 @@ def getConfiguration():
             else:
                 globalVerify = None
         else:
-            globalShorten = None
             globalVerify = None
 
         globalSettings = GlobalConfig(
@@ -211,7 +201,6 @@ def getConfiguration():
             nick     = globalNick,
             password = globalPassword,
             join     = globalJoin,
-            shorten  = globalShorten,
             verify   = globalVerify
         )
     except (KeyError, TypeError) as e:
@@ -243,16 +232,6 @@ def getConfiguration():
             if len(repos) < 1:
                 raise TypeError("'repos' must contain at least 1 item")
 
-
-            if "shorten_url" in pool["github"]:
-                shorten = pool["github"]["shorten_url"]
-            elif globalSettings.shorten:
-                shorten = globalSettings.shorten
-            else:
-                shorten = False
-            if type(shorten) is not bool:
-                raise TypeError("'shorten_url' is not a boolean")
-                
 
             generatedRepos = []
             for repo in repos:
@@ -403,7 +382,6 @@ def getConfiguration():
             Pool(
                 name=name,
                 repos=generatedRepos,
-                shorten=shorten,
                 host=host,
                 port=port,
                 ssl=ssl,

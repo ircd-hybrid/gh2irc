@@ -107,7 +107,7 @@ def handler(event, context=None):
         else:
             logging.debug("Skipping payload verification because 'verify' set to False.")
 
-        getMessages = parsePayload(githubEvent, githubPayload, pool["pool"].repos, pool["pool"].shorten)
+        getMessages = parsePayload(githubEvent, githubPayload, pool["pool"].repos)
         if getMessages["statusCode"] != 200:
             return getMessages
 

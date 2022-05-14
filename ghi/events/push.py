@@ -7,7 +7,7 @@ import github
 from irc import Colors
 
 
-def Push(payload, poolRepos, shorten):
+def Push(payload, poolRepos):
  
     ref  = payload["ref"]
 
@@ -17,11 +17,6 @@ def Push(payload, poolRepos, shorten):
         action = "force pushed"
     else:
         action = "pushed"
-
-    if shorten:
-        url = github.shortenUrl(payload["compare"])
-    else:
-        url = payload["compare"]
 
     logging.info("Received ref '%s'" % ref)
     colors = Colors()
@@ -35,7 +30,7 @@ def Push(payload, poolRepos, shorten):
             user         = payload["pusher"]["name"],
             action       = action,
             tag          = ref.split("/", maxsplit=2)[2],
-            compareUrl   = url,
+            compareUrl   = payload["compare"],
             light_gray   = colors.light_gray,
             dark_gray    = colors.dark_gray,
             light_purple = colors.light_purple,
@@ -90,7 +85,7 @@ def Push(payload, poolRepos, shorten):
                 action       = action,
                 length       = length,
                 branch       = branch,
-                compareUrl   = url,
+                compareUrl   = payload["compare"],
                 plural       = plural,
                 light_gray   = colors.light_gray,
                 dark_gray    = colors.dark_gray,

@@ -7,7 +7,7 @@ import github
 from irc import Colors
 
 
-def Watch(payload, shorten):
+def Watch(payload):
 
     action = payload["action"]
     logging.info("Received action '%s'" % action)

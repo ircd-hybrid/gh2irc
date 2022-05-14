@@ -7,15 +7,11 @@ import github
 from irc import Colors
 
 
-def PullRequest(payload, shorten):
+def PullRequest(payload):
 
     action = payload["action"]
     logging.info("Received action '%s'" % action)
     colors = Colors()
-    if shorten:
-        url = github.shortenUrl(payload["pull_request"]["html_url"])
-    else:
-        url = payload["pull_request"]["html_url"]
 
     if action in ["opened", "closed", "reopened", "labeled", "unlabeled"]:
         if action == "closed" and payload["pull_request"]["merged"]:
@@ -32,7 +28,7 @@ def PullRequest(payload, shorten):
             title        = payload["pull_request"]["title"],
             baseBranch   = payload["pull_request"]["base"]["ref"],
             headBranch   = payload["pull_request"]["head"]["ref"],
-            url          = url,
+            url          = payload["pull_request"]["html_url"],
             light_gray   = colors.light_gray,
             dark_gray    = colors.dark_gray,
             light_purple = colors.light_purple,
