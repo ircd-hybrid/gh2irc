@@ -7,11 +7,12 @@ import yaml
 class Pool(object):
 
 
-    def __init__(self, name, repos, host, port, ssl, nick, password, channels, join):
+    def __init__(self, name, repos, host, port, ipv6, ssl, nick, password, channels, join):
         self.name = name
         self.repos = repos
         self.host = host
         self.port = port
+        self.ipv6 = ipv6
         self.ssl = ssl
         self.nick = nick
         self.password = password
@@ -34,9 +35,10 @@ def readFile(path):
 class GlobalConfig(object):
 
 
-    def __init__(self, host, port, ssl, nick, password, join, verify):
+    def __init__(self, host, port, ipv6, ssl, nick, password, join, verify):
         self.host = host
         self.port = port
+        self.ipv6 = ipv6
         self.ssl = ssl
         self.nick = nick
         self.password = password
@@ -148,6 +150,13 @@ def getConfiguration():
             else:
                 globalPort = None
 
+            if "ipv6" in globalConfig["irc"]:
+                globalIPv6 = globalConfig["irc"]["ipv6"]
+                if type(globalIPv6) is not bool:
+                    raise TypeError("'ipv6' is not a boolean")
+            else:
+                globalIPv6 = None
+
             if "ssl" in globalConfig["irc"]:
                 globalSsl = globalConfig["irc"]["ssl"]
                 if type(globalSsl) is not bool:
@@ -179,6 +188,7 @@ def getConfiguration():
         else:
             globalHost = None
             globalPort = None
+            globalIPv6 = None
             globalSsl = None
             globalNick = None
             globalPassword = None
@@ -198,6 +208,7 @@ def getConfiguration():
             host     = globalHost,
             port     = globalPort,
             ssl      = globalSsl,
+            ipv6     = globalIPv6,
             nick     = globalNick,
             password = globalPassword,
             join     = globalJoin,
@@ -322,6 +333,16 @@ def getConfiguration():
                 raise TypeError("'port' is not an integer")
 
 
+            if "ipv6" in pool["irc"]:
+                ipv6 = pool["irc"]["ipv6"]
+            elif globalSettings.ipv6:
+                ipv6 = globalSettings.ipv6
+            else:
+                ipv6 = False
+            if type(ipv6) is not bool:
+                raise TypeError("'ipv6' is not a boolean")
+
+
             if "nick" in pool["irc"]:
                 nick = pool["irc"]["nick"]
             elif globalSettings.nick:
@@ -384,6 +405,7 @@ def getConfiguration():
                 repos=generatedRepos,
                 host=host,
                 port=port,
+                ipv6=ipv6,
                 ssl=ssl,
                 nick=nick,
                 password=password,

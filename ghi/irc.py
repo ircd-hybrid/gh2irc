@@ -36,15 +36,17 @@ class Colors(object):
 class IRC(object):
 
 
-    def __init__(self, sslConfig):
+    def __init__(self, sslConfig, ipv6Config):
+        address_family = socket.AF_INET6 if ipv6Config else socket.AF_INET
         if sslConfig is True:
             self.irc = ssl.wrap_socket(
-                socket.socket(socket.AF_INET, socket.SOCK_STREAM),
+                socket.socket(address_family, socket.SOCK_STREAM),
                 ssl_version=ssl.PROTOCOL_TLS
             )
         else:
-            self.irc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.irc = socket.socket(address_family, socket.SOCK_STREAM)
         self.irc.settimeout(1)
+        self.ipv6 = ipv6Config
 
 
     def getText(self):
@@ -105,7 +107,11 @@ class IRC(object):
 
     def connect(self, host, port, channels, nick, password, join):
         logging.info("Connecting to {}:{} with nick {} and channels: {}".format(host, port, nick, ','.join(channels)))
-        self.irc.connect((host, port))  
+        if self.ipv6:
+            self.irc.connect((host, port, 0, 0))
+        else:
+            self.irc.connect((host, port))
+
         if password != None:
             self.authenticate(nick, password)                                                  
         self.irc.send(bytes("USER {nick} {nick} {nick} :gh2irc: GitHub to IRC notification service\r\n".format(nick=nick), "UTF-8"))
@@ -145,7 +151,7 @@ class IRC(object):
 
 def sendMessages(pool, messages):
     try:
-        irc = IRC(pool.ssl)
+        irc = IRC(pool.ssl, pool.ipv6)
         irc.connect(pool.host, pool.port, pool.channels, pool.nick, pool.password, pool.join)
         
         # Wait until connection is established
