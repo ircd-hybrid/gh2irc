@@ -128,7 +128,7 @@ class IRC(object):
 
         if join is True:
             for channel in channels:               
-                self.irc.send(bytes("PART {channel}\r\n", "UTF-8"))
+                self.irc.send(bytes(f"PART {channel}\r\n", "UTF-8"))
 
         self.irc.send(bytes("QUIT\r\n", "UTF-8"))
         # Get rest of logs for debug
