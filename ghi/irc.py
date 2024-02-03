@@ -94,7 +94,7 @@ class IRC(object):
 
 
     def sendMessage(self, channel, message):
-        self.irc.send(bytes("PRIVMSG {} :{}\r\n".format(channel, message), "UTF-8"))
+        self.irc.send(bytes(f"PRIVMSG {channel} :{message}\r\n", "UTF-8"))
 
 
     def sendPong(self, text):
@@ -102,11 +102,11 @@ class IRC(object):
 
 
     def sendIson(self, nick):
-        self.irc.send(bytes("ISON {}\r\n".format(nick), "UTF-8"))
+        self.irc.send(bytes(f"ISON {nick}\r\n", "UTF-8"))
 
 
     def connect(self, host, port, channels, nick, password, join):
-        logging.info("Connecting to {}:{} with nick {} and channels: {}".format(host, port, nick, ','.join(channels)))
+        logging.info(f"Connecting to {host}:{port} with nick {nick} and channels: {','.join(channels)}")
         if self.ipv6:
             self.irc.connect((host, port, 0, 0))
         else:
@@ -114,12 +114,12 @@ class IRC(object):
 
         if password != None:
             self.authenticate(nick, password)                                                  
-        self.irc.send(bytes("USER {nick} {nick} {nick} :gh2irc: GitHub to IRC notification service\r\n".format(nick=nick), "UTF-8"))
-        self.irc.send(bytes("NICK {}\r\n".format(nick), "UTF-8"))
+        self.irc.send(bytes(f"USER {nick} {nick} {nick} :gh2irc: GitHub to IRC notification service\r\n", "UTF-8")
+        self.irc.send(bytes(f"NICK {nick}\r\n", "UTF-8"))
 
         if join is True:
             for channel in channels:
-                self.irc.send(bytes("JOIN {}\r\n".format(channel), "UTF-8"))
+                self.irc.send(bytes(f"JOIN {channel}\r\n", "UTF-8"))
  
 
     def disconnect(self, channels, join):
@@ -128,7 +128,7 @@ class IRC(object):
 
         if join is True:
             for channel in channels:               
-                self.irc.send(bytes("PART {}\r\n".format(channel), "UTF-8"))
+                self.irc.send(bytes("PART {channel}\r\n", "UTF-8"))
 
         self.irc.send(bytes("QUIT\r\n", "UTF-8"))
         # Get rest of logs for debug
